@@ -1,0 +1,24 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import os
+path = '//Mac/Home/Dropbox/Teaching/mma2018/d2l/Lecture Notes/Module 3 Random Variable and Inference/Excel Templates/in Class'
+os.chdir(path)
+df = pd.read_excel('Salary Data.xlsx', sheetname='DataTable')
+# process the data
+bins = range(int(df.Salary.min()),int(df.Salary.max()),20000) # divide the salary range into interval of 20000
+df['Intervals'] = pd.cut(df.Salary, bins)
+pdf = df['Intervals'].value_counts(normalize=True).sort_index()
+pdf.plot(kind='bar', label = 'PDF') 
+plt.xticks(rotation=90)
+plt.legend()
+plt.xlabel('Salary Range')
+plt.ylabel('Percentages')
+plt.show()
+cdf = pdf.cumsum()
+cdf.plot(kind='bar', label = 'CDF') 
+plt.xticks(rotation=90)
+plt.legend()
+plt.xlabel('Salary Range')
+plt.ylabel('Percentages')
+plt.show()
