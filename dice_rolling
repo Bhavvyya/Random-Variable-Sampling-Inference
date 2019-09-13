@@ -1,0 +1,29 @@
+# import the packages
+import pandas as pd
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+# set sample size parameters
+size = 10000
+length = 2
+# set data distribution
+elements = list(range(1,7))
+probabilities = [1/6 for i in range(1,7)]
+# generate data by sampling from the above data distribution
+matrix = {}
+for i in range(length):
+    matrix['Die'+str(i)] = np.random.choice(elements, size=size, p=probabilities)
+data = pd.DataFrame(matrix)
+data['Sum'] = pd.Series([sum(i for i in list(data.iloc[r])) for r in range(len(data))])
+pdf = data.Sum.value_counts(normalize=True).sort_index()
+pdf.plot(kind = 'bar', title = 'Probability Distribution Function (PDF)', label = 'PDF')
+plt.legend()
+plt.xlabel('Sum of Two Dice')
+plt.ylabel('Probabilities')
+plt.show()
+cdf = pdf.cumsum()
+cdf.plot(kind = 'bar', title='Cumulative Distribution Function (CDF)', label = 'CDF')
+plt.legend()
+plt.xlabel('Sum of Two Dice')
+plt.ylabel('Probabilities')
+plt.show()
